@@ -1,10 +1,7 @@
-from  flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
-
-app = Flask(__name__)
-
-#needed for RegistrationForm and LoginForm -> protect against modyfing cookies, cross site request forgery attack
-app.config['SECRET_KEY'] = '55d102a68a11bdb91578610ca74640a3'
+from app.models import User, Post
+from app.forms import RegistrationForm, LoginForm
+from flask import render_template, url_for, flash, redirect
+from app import app
 
 #test_data
 posts = [
@@ -43,14 +40,13 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if(form.validate_on_submit()):
+        if(form.email.data == 'admin@wp.pl' and form.password.data == '12345'):
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('You fucked up logging in x-D', 'danger')
     return render_template('login.html', title='Login', form=form)
-
-
-
-
-
-
-
