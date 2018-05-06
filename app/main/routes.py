@@ -15,3 +15,23 @@ def home():
 @main.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+#-------------------- replies to different request methods (curl helper) --------------------
+
+@main.route('/echo', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+def echo():
+    if request.method == 'GET':
+        return "ECHO: GET\n"
+
+    elif request.method == 'POST':
+        return "ECHO: POST\n"
+
+    elif request.method == 'PATCH':
+        return "ECHO: PACTH\n"
+
+    elif request.method == 'PUT':
+        return "ECHO: PUT\n"
+
+    elif request.method == 'DELETE':
+        return "ECHO: DELETE"
